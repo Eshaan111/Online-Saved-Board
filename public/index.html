@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Planner - Floating Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <h1>✨ Daily Planner</h1>
+    <div class="controls">
+      <button class="btn btn-save">💾 Save</button>
+      <button class="btn btn-add">+ Add Note</button>
+      <button class="btn btn-remove">- Remove Note</button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Meetings Pane - Left -->
+    <div class="meetings-pane">
+      <div class="meetings-header">📅 Meetings</div>
+      <div class="meetings-content">
+        <div class="meeting-entry">
+          <div class="meeting-time">10:00 AM</div>
+          <div class="meeting-title">Team Standup</div>
+        </div>
+        <div class="meeting-entry">
+          <div class="meeting-time">2:30 PM</div>
+          <div class="meeting-title">Client Call</div>
+        </div>
+        <div class="meeting-entry">
+          <div class="meeting-time">4:00 PM</div>
+          <div class="meeting-title">Project Review</div>
+        </div>
+      </div>
+      <div class="meetings-input-box">
+        <input type="text" class="meetings-input" placeholder="Add meeting...">
+        <button class="meetings-btn">Add</button>
+      </div>
+    </div>
+
+    <!-- Columns Section -->
+    <div class="columns-section">
+      <!-- Work Column -->
+      <div class="column">
+        <div class="column-header work">💼 Work</div>
+        <div class="tasks-container">
+          <div class="task-card">
+            <div class="task-text">Complete project proposal</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <div class="task-text">Team meeting at 2 PM</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Column -->
+      <div class="column">
+        <div class="column-header home">🏠 Home</div>
+        <div class="tasks-container">
+          <div class="task-card">
+            <div class="task-text">Groceries - milk, eggs, bread</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <div class="task-text">Water the plants</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Column -->
+      <div class="column">
+        <div class="column-header personal">🎯 Personal</div>
+        <div class="tasks-container">
+          <div class="task-card">
+            <div class="task-text">30 min yoga session</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+          <div class="task-card">
+            <div class="task-text">Read 2 chapters of book</div>
+            <div class="task-footer">
+              <button class="task-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brain Dump Pane - Right -->
+    <div class="brain-dump">
+      <div class="brain-dump-header">🧠 Brain Dump</div>
+      <div class="brain-dump-content">
+        <div class="brain-entry">
+          <div class="brain-entry-time">10:30 AM</div>
+          <div>Remember to call mom about the weekend plans</div>
+        </div>
+        <div class="brain-entry">
+          <div class="brain-entry-time">11:15 AM</div>
+          <div>Ideas for next presentation: use more visuals, interactive elements</div>
+        </div>
+      </div>
+      <div class="brain-dump-input-box">
+        <textarea class="brain-input" placeholder="Dump your thoughts here..."></textarea>
+        <button class="brain-btn">Send</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
