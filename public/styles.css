@@ -220,6 +220,7 @@ body::before {
   animation: fadeIn 0.4s ease;
   flex-shrink: 0;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .meeting-entry:hover {
@@ -238,6 +239,36 @@ body::before {
 .meeting-title {
   font-weight: 600;
   margin-bottom: 0.2vw;
+}
+
+.meeting-entry-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: rgba(103, 192, 144, 0.12);
+  border: 1px solid rgba(103, 192, 144, 0.3);
+  color: #67C090;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.meeting-entry:hover .meeting-entry-close {
+  opacity: 1;
+}
+
+.meeting-entry-close:hover {
+  background: rgba(103, 192, 144, 0.25);
+  border-color: rgba(103, 192, 144, 0.6);
+  transform: scale(1.1);
 }
 
 .meetings-input-box {
@@ -471,6 +502,36 @@ body::before {
   box-shadow: 0 2px 6px rgba(103, 192, 144, 0.1);
 }
 
+.task-card-edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: rgba(103, 192, 144, 0.12);
+  border: 1px solid rgba(103, 192, 144, 0.3);
+  color: #67C090;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.task-card:hover .task-card-edit {
+  opacity: 1;
+}
+
+.task-card-edit:hover {
+  background: rgba(103, 192, 144, 0.25);
+  border-color: rgba(103, 192, 144, 0.6);
+  transform: scale(1.1);
+}
+
 /* Add button for columns */
 .column-add-btn {
   padding: 6px 12px;
@@ -556,6 +617,8 @@ body::before {
   color: #e8f2e8;
   animation: fadeIn 0.4s ease;
   flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -565,6 +628,41 @@ body::before {
   to {
     opacity: 1;
   }
+}
+
+.brain-entry:hover {
+  background: rgba(12, 24, 60, 0.8);
+  border-left-color: rgba(0, 212, 255, 0.5);
+}
+
+.brain-entry-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #00d4ff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.brain-entry:hover .brain-entry-close {
+  opacity: 1;
+}
+
+.brain-entry-close:hover {
+  background: rgba(0, 212, 255, 0.25);
+  border-color: rgba(0, 212, 255, 0.6);
+  transform: scale(1.1);
 }
 
 .brain-entry-time {
