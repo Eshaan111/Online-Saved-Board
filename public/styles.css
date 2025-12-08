@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -26,7 +27,6 @@ body::before {
   pointer-events: none;
   animation: float 20s ease-in-out infinite;
   z-index: -1;
-  
 }
 
 @keyframes float {
@@ -166,6 +166,37 @@ body::before {
   text-align: center;
   flex-shrink: 0;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Add button for meetings panel */
+.meetings-add-btn {
+  position: absolute;
+  right: 1vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(176, 176, 184, 0.15);
+  border: 1px solid rgba(176, 176, 184, 0.4);
+  color: #a0a0a8;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.meetings-add-btn:hover {
+  background: rgba(176, 176, 184, 0.25);
+  border-color: rgba(176, 176, 184, 0.6);
+  color: #c0c0c8;
 }
 
 .meetings-content {
@@ -316,20 +347,20 @@ body::before {
   color: #67C090;
 }
 
-.column-header.work { 
-  border-color: rgba(0, 212, 255, 0.3); 
+.column-header.work {
+  border-color: rgba(0, 212, 255, 0.3);
   color: #00d4ff;
   background: rgba(8, 20, 40, 0.88);
 }
 
-.column-header.home { 
-  border-color: rgba(103, 192, 144, 0.3); 
+.column-header.home {
+  border-color: rgba(103, 192, 144, 0.3);
   color: #67C090;
   background: rgba(8, 12, 28, 0.88);
 }
 
-.column-header.personal { 
-  border-color: rgba(255, 107, 107, 0.3); 
+.column-header.personal {
+  border-color: rgba(255, 107, 107, 0.3);
   color: #ff6b6b;
   background: rgba(40, 8, 20, 0.88);
 }
@@ -437,6 +468,29 @@ body::before {
 .task-btn:hover {
   background: rgba(103, 192, 144, 0.15);
   transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(103, 192, 144, 0.1);
+}
+
+/* Add button for columns */
+.column-add-btn {
+  padding: 6px 12px;
+  font-size: 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(103, 192, 144, 0.3);
+  background: rgba(103, 192, 144, 0.08);
+  color: #67C090;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.column-add-btn:hover {
+  background: rgba(103, 192, 144, 0.12);
+  border-color: rgba(103, 192, 144, 0.5);
+  transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(103, 192, 144, 0.1);
 }
 
@@ -601,15 +655,19 @@ body::before {
   .brain-dump {
     width: 16vw;
   }
+  
   .meetings-pane {
     width: 16vw;
   }
+  
   .top-bar {
     left: 16vw;
   }
+  
   .container {
     margin-left: 16vw;
   }
+  
   .columns-section::before {
     left: 16vw;
     right: 16vw;
@@ -620,29 +678,25 @@ body::before {
   .columns-section {
     gap: 1vw;
   }
-
+  
   .brain-dump {
     width: 18vw;
   }
-
+  
   .meetings-pane {
     width: 18vw;
   }
-
+  
   .top-bar {
     left: 18vw;
   }
-
+  
   .container {
     margin-left: 18vw;
   }
-
+  
   .columns-section::before {
     left: 18vw;
     right: 18vw;
-  }
-
-  .column-header {
-    font-size: 18px;
   }
 }
