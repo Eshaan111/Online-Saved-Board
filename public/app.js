@@ -180,6 +180,9 @@ function addEntry(type, colname = null, text = null) {
         entryClass = 'task-card';
         textClass = 'task-text';
         closeClass = 'task-card-edit'
+        close_btn.addEventListener('click', () => {
+            identifyColByEdit(close_btn)
+        })
         card_footer_div.classList.add('task-footer')
         remove_btn.classList.add('task-btn')
         card_footer_div.appendChild(remove_btn);
