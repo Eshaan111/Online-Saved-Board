@@ -6,6 +6,10 @@ const app = express();
 
 app.use(express.static('./public'))
 
-app.listen(PORT,() =>{
-    console.log('Listening on Port ', PORT)
+app.listen(PORT, () => {
+  console.log('Listening on Port ', PORT)
+})
+
+app.get('/check', (req, res) => {
+  res.json({ data: 'HI' });
 })
