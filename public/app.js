@@ -40,12 +40,24 @@ let dumpData = {
      * dumpText : TEXT
      * }**/
 }
-data = {
+let data = {
     'meetings': meetingData,
     'work': workData,
     'home': homeData,
     'personal': personalData,
     'dump': dumpData,
+
+}
+
+function updateDATA() {
+    data = {
+        'meetings': meetingData,
+        'work': workData,
+        'home': homeData,
+        'personal': personalData,
+        'dump': dumpData,
+
+    }
 
 }
 
@@ -158,6 +170,7 @@ function addEntry(type, colname = null, text = null) {
         }
         meet_count++;
         parent = document.getElementById('meetings-content');
+        updateDATA()
     }
 
     else if (type == 'dump') {
@@ -171,6 +184,7 @@ function addEntry(type, colname = null, text = null) {
         }
         dump_count++;
         parent = document.getElementById('brain-dump-content');
+        updateDATA()
 
     }
 
@@ -181,7 +195,7 @@ function addEntry(type, colname = null, text = null) {
         textClass = 'task-text';
         closeClass = 'task-card-edit'
         close_btn.addEventListener('click', () => {
-            identifyColByEdit(close_btn)
+            updateColumnDataByEdit(close_btn, 'TEST')
         })
         card_footer_div.classList.add('task-footer')
         remove_btn.classList.add('task-btn')
@@ -211,6 +225,7 @@ function addEntry(type, colname = null, text = null) {
             personal_count++
         }
 
+        updateDATA()
 
 
     }
@@ -226,32 +241,32 @@ function addEntry(type, colname = null, text = null) {
 }
 
 
-function identifyColByEdit(htmlDiv) {
+function updateColumnDataByEdit(htmlDiv, new_text) {
     console.log('LOGGING BTN = ', htmlDiv)
     let parent = htmlDiv.parentElement.parentElement
-
-    switch (parent.id) {
-        // 'home-container' : //HOME;
-    }
-    count = 0;
+    count = 0
+    index = 0;
     Array.from(parent.querySelectorAll('.task-card-edit')).forEach(element => {
         if (element == htmlDiv) {
             console.log(`${parent.id}${count}`, element)
+            index = count;
         }
         count++
     });
-    console.log(parent.id)
 
-
-
-
+    switch (parent.id) {
+        case 'work-container': { workData[`card${index}`].cardText = new_text; updateDATA(); break; };
+        case 'home-container': { homeData[`card${index}`].cardText = new_text; updateDATA(); break; };
+        case 'personal-container': { personalData[`card${index}`].cardText = new_text; updateDATA(); break; };
+        default: null;
+    }
 
 }
 
 Array.from(editBtns).forEach(btn => {
     console.log(btn)
     btn.addEventListener('click', () => {
-        identifyColByEdit(btn)
+        updateColumnDataByEdit(btn, 'TEST')
     })
 })
 
@@ -281,6 +296,8 @@ personalAddButton.addEventListener('click', () => {
     addEntry('col', 'personal', null)
     console.log(personalData)
 })
+
+
 
 fetch('http://localhost:3000/check')
     .then(res => res.json())
