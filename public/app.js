@@ -8,6 +8,7 @@ let workAddButton = document.getElementById('work-add-btn')
 let homeAddButton = document.getElementById('home-add-btn')
 let personalAddButton = document.getElementById('personal-add-btn')
 let editBtns = document.getElementsByClassName('task-card-edit')
+let removeBtns = document.getElementsByClassName('task-btn')
 
 
 let dumpInput = document.getElementById('dump-input')
@@ -71,7 +72,13 @@ dump_count = 0;
 
 
 
-function surveyDataObjects() {
+function surveyHtmlFile() {
+
+    meetingData = {};
+    workData = {};
+    homeData = {};
+    personalData = {};
+    dumpData = {};
 
     Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
         curr_ele_count = Object.keys(meetingData).length;
@@ -143,7 +150,7 @@ function surveyDataObjects() {
     console.log(data)
 }
 
-surveyDataObjects()
+surveyHtmlFile()
 
 
 
@@ -269,7 +276,7 @@ function editCardText(el, parentId, index) {
 
 }
 
-async function updateColumnDataByEdit(htmlDiv, new_text) {
+function updateColumnDataByEdit(htmlDiv, new_text) {
     console.log('LOGGING BTN = ', htmlDiv)
     let parent = htmlDiv.parentElement.parentElement
     count = 0
@@ -295,10 +302,39 @@ async function updateColumnDataByEdit(htmlDiv, new_text) {
 
 }
 
+function removeColumn(htmlDiv) {
+    console.log('LOGGING BTN = ', htmlDiv)
+    let parent = htmlDiv.parentElement.parentElement.parentElement
+    count = 0
+    index = 0;
+    Array.from(parent.querySelectorAll('.task-btn')).forEach(removeBtn => {
+        if (removeBtn == htmlDiv) {
+            index = count;
+            console.log(`${parent.id}${index}`, removeBtn)
+        }
+        count++
+    });
+    htmlDiv.parentElement.parentElement.remove()
+
+    switch (parent.id) {
+        case 'work-container': { delete workData[`card${index}`]; updateDATA(); break; };
+        case 'home-container': { delete homeData[`card${index}`]; updateDATA(); break; };
+        case 'personal-container': { delete personalData[`card${index}`]; updateDATA(); break; };
+        default: null;
+    }
+
+}
+
 Array.from(editBtns).forEach(btn => {
     console.log(btn)
     btn.addEventListener('click', () => {
         updateColumnDataByEdit(btn, 'TEST')
+    })
+})
+
+Array.from(removeBtns).forEach(btn => {
+    btn.addEventListener('click', () => {
+        removeColumn(btn)
     })
 })
 
