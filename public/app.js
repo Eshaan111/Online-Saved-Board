@@ -12,6 +12,7 @@ let editBtns = document.getElementsByClassName('task-card-edit')
 
 let dumpInput = document.getElementById('dump-input')
 let dumpCreateButton = document.getElementById('brain-btn')
+
 console.log(meetingCreateButton)
 
 let meetingData = {
@@ -309,9 +310,20 @@ meetingCreateButton.addEventListener('click', () => {
 
 dumpCreateButton.addEventListener('click', () => {
     addEntry('dump', null, dumpInput.value)
+    dumpInput.value = ''
     console.log(dumpData)
 })
 
+dumpInput.addEventListener("keydown", (e) => {
+    if (e.key === 'Enter') {
+        dumpInput.blur()
+        addEntry('dump', null, dumpInput.value)
+        dumpInput.value = ''
+        console.log(dumpData)
+
+    }
+
+})
 
 workAddButton.addEventListener('click', () => {
     addEntry('col', 'work', null)
