@@ -1,3 +1,4 @@
+
 port = 3000;
 let now = new Date();
 
@@ -69,7 +70,7 @@ dump_count = 0;
 
 
 
-function initialiseDataObjects() {
+function surveyDataObjects() {
 
     Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
         curr_ele_count = Object.keys(meetingData).length;
@@ -131,14 +132,17 @@ function initialiseDataObjects() {
     });
 
 
-    console.log(meetingData)
-    console.log(workData)
-    console.log(homeData)
-    console.log(personalData)
-    console.log(dumpData)
+    // console.log(meetingData)
+    // console.log(workData)
+    // console.log(homeData)
+    // console.log(personalData)
+    // console.log(dumpData)
+
+    updateDATA();
+    console.log(data)
 }
 
-initialiseDataObjects()
+surveyDataObjects()
 
 
 
@@ -239,17 +243,44 @@ function addEntry(type, colname = null, text = null) {
     (type != 'meeting' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
 
 }
+function editCardText(el, parentId, index) {
+    el.focus()
+    const range = document.createRange();
+    range.selectNodeContents(el);   // select all content
+    range.collapse(false);         // collapse to end
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === 'Escape') {
+            e.preventDefault();        // stop newline
+            el.blur();           // exit editing (lose focus)
+            el.removeAttribute("contenteditable");
 
+            switch (parentId) {
+                case 'work-container': { workData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
+                case 'home-container': { homeData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
+                case 'personal-container': { personalData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
+                default: null;
+            }
+        }
+    });
 
-function updateColumnDataByEdit(htmlDiv, new_text) {
+}
+
+async function updateColumnDataByEdit(htmlDiv, new_text) {
     console.log('LOGGING BTN = ', htmlDiv)
     let parent = htmlDiv.parentElement.parentElement
     count = 0
     index = 0;
-    Array.from(parent.querySelectorAll('.task-card-edit')).forEach(element => {
-        if (element == htmlDiv) {
-            console.log(`${parent.id}${count}`, element)
+    Array.from(parent.querySelectorAll('.task-card-edit')).forEach(editBtn => {
+        if (editBtn == htmlDiv) {
             index = count;
+            console.log(`${parent.id}${index}`, editBtn)
+            el = editBtn.parentElement.querySelector('.task-text')
+            el.contentEditable = 'true';
+            a = editCardText(el, parent.id, index)
+
         }
         count++
     });
