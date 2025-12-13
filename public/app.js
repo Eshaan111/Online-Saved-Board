@@ -357,11 +357,11 @@ function removeColumn(ele, htmlDiv) {
     target.remove()
 
     switch (parent.id) {
-        case 'meetings-content': { delete meetingData[`meet${index}`]; surveyHtmlMeet(); updateDATA(); break; };
-        case 'work-container': { delete workData[`card${index}`]; surveyHtmlWork(); updateDATA(); break; };
-        case 'home-container': { delete homeData[`card${index}`]; surveyHtmlHome(); updateDATA(); break; };
-        case 'personal-container': { delete personalData[`card${index}`]; surveyHtmlPersonal(); updateDATA(); break; };
-        case "brain-dump-content": { delete dumpData[`dump${index}`]; surveyHtmlDump(); updateDATA(); break; };
+        case 'meetings-content': { delete meetingData[`meet${index}`]; surveyHtmlMeet(); meet_count--; updateDATA(); break; };
+        case 'work-container': { delete workData[`card${index}`]; surveyHtmlWork(); work_count--; updateDATA(); break; };
+        case 'home-container': { delete homeData[`card${index}`]; surveyHtmlHome(); home_count--; updateDATA(); break; };
+        case 'personal-container': { delete personalData[`card${index}`]; surveyHtmlPersonal(); personal_count--; updateDATA(); break; };
+        case "brain-dump-content": { delete dumpData[`dump${index}`]; surveyHtmlDump(); dump_count--; updateDATA(); break; };
         default: null;
     }
 
