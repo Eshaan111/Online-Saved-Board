@@ -2,17 +2,20 @@
 port = 3000;
 let now = new Date();
 
-let meetingCreateButton = document.getElementById('meetings-add-btn')
-
 let workAddButton = document.getElementById('work-add-btn')
+let meetingCreateButton = document.getElementById('meetings-add-btn')
 let homeAddButton = document.getElementById('home-add-btn')
 let personalAddButton = document.getElementById('personal-add-btn')
-let editBtns = document.getElementsByClassName('task-card-edit')
-let removeBtns = document.getElementsByClassName('task-btn')
-
-
+let addMeetinput = document.getElementById("meetings-input")
+let addMeetinputBtn = document.getElementById("meetings-btn")
 let dumpInput = document.getElementById('dump-input')
 let dumpCreateButton = document.getElementById('brain-btn')
+
+
+let editBtns = document.getElementsByClassName('task-card-edit')
+let cardRemoveBtns = document.getElementsByClassName('task-btn')
+let removeMeetButton = document.getElementsByClassName("meeting-entry-close")
+let removeDumpButton = document.getElementsByClassName("brain-entry-close")
 
 console.log(meetingCreateButton)
 
@@ -44,11 +47,6 @@ let dumpData = {
      * }**/
 }
 let data = {
-    'meetings': meetingData,
-    'work': workData,
-    'home': homeData,
-    'personal': personalData,
-    'dump': dumpData,
 
 }
 
@@ -61,6 +59,9 @@ function updateDATA() {
         'dump': dumpData,
 
     }
+
+
+
 
 }
 
@@ -175,13 +176,15 @@ function addEntry(type, colname = null, text = null) {
         timeClass = 'meeting-time';
         textClass = 'meeting-title';
         closeClass = 'meeting-entry-close'
-
+        close_btn.innerText = '✕'
         meetingData[`meet${meet_count}`] = {
             'meetTime': time_div.innerText,
             'meetTitle': title_div.innerText
         }
         meet_count++;
+        setEvent('removeMeet', close_btn)
         parent = document.getElementById('meetings-content');
+
         updateDATA()
     }
 
@@ -195,6 +198,7 @@ function addEntry(type, colname = null, text = null) {
             'dumpTitle': title_div.innerText
         }
         dump_count++;
+        setEvent('removeDump', close_btn)
         parent = document.getElementById('brain-dump-content');
         updateDATA()
 
@@ -214,6 +218,8 @@ function addEntry(type, colname = null, text = null) {
         card_footer_div.appendChild(remove_btn);
         remove_btn.innerText = 'Remove'
         close_btn.innerText = '✎'
+        setEvent('editCard', close_btn)
+        setEvent('removeCard', remove_btn)
 
         if (colname == 'work') {
             parent = document.getElementById('work-container')
@@ -251,6 +257,8 @@ function addEntry(type, colname = null, text = null) {
     (type != 'meeting' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
 
 }
+
+
 function editCardText(el, parentId, index) {
     el.focus()
     const range = document.createRange();
@@ -302,41 +310,42 @@ function updateColumnDataByEdit(htmlDiv, new_text) {
 
 }
 
-function removeColumn(htmlDiv) {
+function removeColumn(ele, htmlDiv) {
     console.log('LOGGING BTN = ', htmlDiv)
-    let parent = htmlDiv.parentElement.parentElement.parentElement
-    count = 0
+    let parent;
+    if (ele === 'card') {
+        parent = htmlDiv.parentElement.parentElement.parentElement
+        targetClass = '.task-btn'
+        target = htmlDiv.parentElement.parentElement
+    }
+    else {
+        ele === 'meet' ? targetClass = "meeting-entry-close" : targetClass = "brain-entry-close";
+        parent = htmlDiv.parentElement.parentElement;
+        target = htmlDiv.parentElement;
+    }
+    count = 0;
     index = 0;
-    Array.from(parent.querySelectorAll('.task-btn')).forEach(removeBtn => {
+    Array.from(parent.querySelectorAll(targetClass)).forEach(removeBtn => {
         if (removeBtn == htmlDiv) {
             index = count;
             console.log(`${parent.id}${index}`, removeBtn)
         }
         count++
     });
-    htmlDiv.parentElement.parentElement.remove()
+    target.remove()
 
     switch (parent.id) {
+        case 'meetings-content': { delete meetingData[`meet${index}`]; updateDATA(); break; };
         case 'work-container': { delete workData[`card${index}`]; updateDATA(); break; };
         case 'home-container': { delete homeData[`card${index}`]; updateDATA(); break; };
         case 'personal-container': { delete personalData[`card${index}`]; updateDATA(); break; };
+        case "brain-dump-content": { delete dumpData[`dump${index}`]; updateDATA(); break; };
         default: null;
     }
 
 }
 
-Array.from(editBtns).forEach(btn => {
-    console.log(btn)
-    btn.addEventListener('click', () => {
-        updateColumnDataByEdit(btn, 'TEST')
-    })
-})
 
-Array.from(removeBtns).forEach(btn => {
-    btn.addEventListener('click', () => {
-        removeColumn(btn)
-    })
-})
 
 
 meetingCreateButton.addEventListener('click', () => {
@@ -371,10 +380,74 @@ homeAddButton.addEventListener('click', () => {
     console.log(homeData)
 })
 
+addMeetinput.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') {
+        addEntry('meeting', null, addMeetinput.value)
+        addMeetinput.value = ''
+    }
+    if (e.key == 'Escape') {
+        addMeetinput.blur();
+    }
+})
+
+function setEvent(event, btn) {
+
+    switch (event) {
+
+        case 'editCard':
+            btn.addEventListener('click', () => {
+                updateColumnDataByEdit(btn, 'TEST')
+            })
+            break;
+        case 'removeCard':
+            btn.addEventListener('click', () => {
+                removeColumn('card', btn)
+            })
+            break;
+        case 'removeMeet':
+            btn.addEventListener('click', () => {
+                removeColumn('meet', btn)
+            })
+            break;
+        case 'removeDump':
+            btn.addEventListener('click', () => {
+                removeColumn('dump', btn)
+            })
+            break;
+        default: null;
+
+
+
+    }
+
+}
+
+Array.from(editBtns).forEach(btn => {
+    setEvent('editCard', btn);
+
+})
+Array.from(cardRemoveBtns).forEach(btn => {
+    setEvent('removeCard', btn)
+})
+
+Array.from(removeMeetButton).forEach(btn => {
+    setEvent('removeMeet', btn)
+})
+
+Array.from(removeDumpButton).forEach(btn => {
+    setEvent('removeDump', btn)
+})
+
+addMeetinputBtn.addEventListener('click', (e) => {
+    addEntry('meeting', null, addMeetinput.value)
+    addMeetinput.value = ''
+})
+
 personalAddButton.addEventListener('click', () => {
     addEntry('col', 'personal', null)
     console.log(personalData)
 })
+
 
 
 
