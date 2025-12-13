@@ -72,27 +72,8 @@ personal_count = 0;
 dump_count = 0;
 
 
-
-function surveyHtmlFile() {
-
-    meetingData = {};
+function surveyHtmlWork() {
     workData = {};
-    homeData = {};
-    personalData = {};
-    dumpData = {};
-
-    Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
-        curr_ele_count = Object.keys(meetingData).length;
-        obj = {
-            'meetTime': card.querySelector('.meeting-time').innerText,
-            'meetTitle': card.querySelector('.meeting-title').innerText
-        }
-
-        meetingData[`meet${curr_ele_count}`] = obj
-        meet_count++;
-
-    });
-
     work_col = document.getElementById('work-col')
     Array.from(work_col.querySelectorAll('.task-card')).forEach((card) => {
         curr_ele_count = Object.keys(workData).length;
@@ -103,8 +84,10 @@ function surveyHtmlFile() {
         workData[`card${curr_ele_count}`] = obj
         work_count++;
     });
+}
 
-
+function surveyHtmlHome() {
+    homeData = {};
     home_col = document.getElementById('home-col')
     Array.from(home_col.querySelectorAll('.task-card')).forEach((card) => {
         console.log('hu')
@@ -117,6 +100,11 @@ function surveyHtmlFile() {
         home_count++;
     });
 
+
+}
+
+function surveyHtmlPersonal() {
+    personalData = {};
     personal_col = document.getElementById('personal-col')
     Array.from(personal_col.querySelectorAll('.task-card')).forEach((card) => {
         curr_ele_count = Object.keys(personalData).length;
@@ -128,7 +116,28 @@ function surveyHtmlFile() {
         personal_count++;
     });
 
+}
 
+function surveyHtmlMeet() {
+
+    meetingData = {};
+    Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
+        curr_ele_count = Object.keys(meetingData).length;
+        obj = {
+            'meetTime': card.querySelector('.meeting-time').innerText,
+            'meetTitle': card.querySelector('.meeting-title').innerText
+        }
+
+        meetingData[`meet${curr_ele_count}`] = obj
+        meet_count++;
+
+    });
+
+
+}
+
+function surveyHtmlDump() {
+    dumpData = {};
     Array.from(document.getElementsByClassName('brain-entry')).forEach((card) => {
         curr_ele_count = Object.keys(dumpData).length;
         obj = {
@@ -141,12 +150,16 @@ function surveyHtmlFile() {
     });
 
 
-    // console.log(meetingData)
-    // console.log(workData)
-    // console.log(homeData)
-    // console.log(personalData)
-    // console.log(dumpData)
 
+}
+
+
+function surveyHtmlFile() {
+    surveyHtmlMeet();
+    surveyHtmlWork();
+    surveyHtmlHome();
+    surveyHtmlPersonal();
+    surveyHtmlDump();
     updateDATA();
     console.log(data)
 }
@@ -157,8 +170,10 @@ surveyHtmlFile()
 
 
 
+
 function addEntry(type, colname = null, text = null) {
 
+    let index;
     entry_div = document.createElement('div')
     time_div = document.createElement('div')
     title_div = document.createElement('div')
@@ -181,6 +196,7 @@ function addEntry(type, colname = null, text = null) {
             'meetTime': time_div.innerText,
             'meetTitle': title_div.innerText
         }
+        index = meet_count;
         meet_count++;
         setEvent('removeMeet', close_btn)
         parent = document.getElementById('meetings-content');
@@ -197,6 +213,7 @@ function addEntry(type, colname = null, text = null) {
             'dumpTime': time_div.innerText,
             'dumpTitle': title_div.innerText
         }
+        index = dump_count;
         dump_count++;
         setEvent('removeDump', close_btn)
         parent = document.getElementById('brain-dump-content');
@@ -255,11 +272,15 @@ function addEntry(type, colname = null, text = null) {
     close_btn.classList.add(closeClass)
     parent.appendChild(entry_div);
     (type != 'meeting' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
+    (type == 'meeting' && text == null) ? editCardText(title_div, parent.id, index) : null;
+
 
 }
 
 
 function editCardText(el, parentId, index) {
+    el.contentEditable = 'true'
+    console.log(el, parentId, index)
     el.focus()
     const range = document.createRange();
     range.selectNodeContents(el);   // select all content
@@ -274,6 +295,7 @@ function editCardText(el, parentId, index) {
             el.removeAttribute("contenteditable");
 
             switch (parentId) {
+                case 'meetings-content': { meetingData[`meet${index}`].meetTitle = el.innerText; updateDATA(); break; };
                 case 'work-container': { workData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
                 case 'home-container': { homeData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
                 case 'personal-container': { personalData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
@@ -335,11 +357,11 @@ function removeColumn(ele, htmlDiv) {
     target.remove()
 
     switch (parent.id) {
-        case 'meetings-content': { delete meetingData[`meet${index}`]; updateDATA(); break; };
-        case 'work-container': { delete workData[`card${index}`]; updateDATA(); break; };
-        case 'home-container': { delete homeData[`card${index}`]; updateDATA(); break; };
-        case 'personal-container': { delete personalData[`card${index}`]; updateDATA(); break; };
-        case "brain-dump-content": { delete dumpData[`dump${index}`]; updateDATA(); break; };
+        case 'meetings-content': { delete meetingData[`meet${index}`]; surveyHtmlMeet(); updateDATA(); break; };
+        case 'work-container': { delete workData[`card${index}`]; surveyHtmlWork(); updateDATA(); break; };
+        case 'home-container': { delete homeData[`card${index}`]; surveyHtmlHome(); updateDATA(); break; };
+        case 'personal-container': { delete personalData[`card${index}`]; surveyHtmlPersonal(); updateDATA(); break; };
+        case "brain-dump-content": { delete dumpData[`dump${index}`]; surveyHtmlDump(); updateDATA(); break; };
         default: null;
     }
 
