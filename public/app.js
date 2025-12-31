@@ -73,6 +73,9 @@ dump_count = 0;
 
 
 function surveyHtmlWork() {
+
+    
+    work_count = 0;
     workData = {};
     work_col = document.getElementById('work-col')
     Array.from(work_col.querySelectorAll('.task-card')).forEach((card) => {
@@ -87,6 +90,7 @@ function surveyHtmlWork() {
 }
 
 function surveyHtmlHome() {
+    home_count = 0;
     homeData = {};
     home_col = document.getElementById('home-col')
     Array.from(home_col.querySelectorAll('.task-card')).forEach((card) => {
@@ -104,6 +108,7 @@ function surveyHtmlHome() {
 }
 
 function surveyHtmlPersonal() {
+    personal_count = 0;
     personalData = {};
     personal_col = document.getElementById('personal-col')
     Array.from(personal_col.querySelectorAll('.task-card')).forEach((card) => {
@@ -119,7 +124,7 @@ function surveyHtmlPersonal() {
 }
 
 function surveyHtmlMeet() {
-
+    meet_count = 0;
     meetingData = {};
     Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
         curr_ele_count = Object.keys(meetingData).length;
@@ -137,6 +142,7 @@ function surveyHtmlMeet() {
 }
 
 function surveyHtmlDump() {
+    dump_count = 0;
     dumpData = {};
     Array.from(document.getElementsByClassName('brain-entry')).forEach((card) => {
         curr_ele_count = Object.keys(dumpData).length;
@@ -357,11 +363,11 @@ function removeColumn(ele, htmlDiv) {
     target.remove()
 
     switch (parent.id) {
-        case 'meetings-content': { delete meetingData[`meet${index}`]; surveyHtmlMeet(); meet_count--; updateDATA(); break; };
-        case 'work-container': { delete workData[`card${index}`]; surveyHtmlWork(); work_count--; updateDATA(); break; };
-        case 'home-container': { delete homeData[`card${index}`]; surveyHtmlHome(); home_count--; updateDATA(); break; };
-        case 'personal-container': { delete personalData[`card${index}`]; surveyHtmlPersonal(); personal_count--; updateDATA(); break; };
-        case "brain-dump-content": { delete dumpData[`dump${index}`]; surveyHtmlDump(); dump_count--; updateDATA(); break; };
+        case 'meetings-content': { delete meetingData[`meet${index}`]; surveyHtmlMeet() ; updateDATA(); break; };
+        case 'work-container': { delete workData[`card${index}`]; surveyHtmlWork() ; updateDATA(); break; };
+        case 'home-container': { delete homeData[`card${index}`]; surveyHtmlHome() ; updateDATA(); break; };
+        case 'personal-container': { delete personalData[`card${index}`]; surveyHtmlPersonal();updateDATA(); break; };
+        case "brain-dump-content": { delete dumpData[`dump${index}`]; surveyHtmlDump();  updateDATA(); break; };
         default: null;
     }
 
