@@ -17,6 +17,8 @@ let cardRemoveBtns = document.getElementsByClassName('task-btn')
 let removeMeetButton = document.getElementsByClassName("meeting-entry-close")
 let removeDumpButton = document.getElementsByClassName("brain-entry-close")
 
+let saveBtn = document.getElementById('btn-save');
+
 console.log(meetingCreateButton)
 
 let meetingData = {
@@ -94,7 +96,6 @@ function surveyHtmlHome() {
     homeData = {};
     home_col = document.getElementById('home-col')
     Array.from(home_col.querySelectorAll('.task-card')).forEach((card) => {
-        console.log('hu')
         curr_ele_count = Object.keys(homeData).length;
         obj = {
             'cardText': card.querySelector('.task-text').innerText
@@ -449,6 +450,14 @@ function setEvent(event, btn) {
     }
 
 }
+
+saveBtn.addEventListener('click',()=>{
+    console.log('SAVING STATE')
+    surveyHtmlFile();
+    
+    
+    
+})
 
 Array.from(editBtns).forEach(btn => {
     setEvent('editCard', btn);
