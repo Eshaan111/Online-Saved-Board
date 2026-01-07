@@ -1,3 +1,5 @@
+// const { post } = require("../schemas/card");
+
 
 port = 3000;
 let now = new Date();
@@ -61,10 +63,6 @@ function updateDATA() {
         'dump': dumpData,
 
     }
-
-
-
-
 }
 
 meet_count = 0;
@@ -374,6 +372,33 @@ function removeColumn(ele, htmlDiv) {
 
 }
 
+async function sendData(){
+    try{
+        console.log('ooo')
+
+        const res = await fetch('http://localhost:3000/sendData',{
+            method : 'POST',
+            headers: { 'Content-type' : 'application/json'},
+            body : JSON.stringify(data)
+        });
+        if(!res.ok){
+            console.error('Request Failed : ', res.status);
+            return
+        }
+        const reply = (await res).json();
+        console.log('Response From server : ', reply);
+        return;
+
+    }
+    catch(e){
+        console.error(e)
+    }
+    
+}
+
+console.log('oye oye')
+surveyHtmlFile();
+sendData();
 
 
 
@@ -453,10 +478,7 @@ function setEvent(event, btn) {
 
 saveBtn.addEventListener('click',()=>{
     console.log('SAVING STATE')
-    surveyHtmlFile();
-    
-    
-    
+    surveyHtmlFile();    
 })
 
 Array.from(editBtns).forEach(btn => {
@@ -487,8 +509,9 @@ personalAddButton.addEventListener('click', () => {
 
 
 
+// fetch('http://localhost:3000/check')
+//     .then(res => res.json())
+//     .then(data => { console.log(data) });
+    
 
-fetch('http://localhost:3000/check')
-    .then(res => res.json())
-    .then(data => { console.log(data) });
 

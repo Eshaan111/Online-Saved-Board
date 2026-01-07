@@ -5,4 +5,4 @@ const dumpSchema = mongoose.Schema({
     title : String
 })
 
-module.exports = dumpSchema
+module.exports = dumpSchema;
