@@ -398,7 +398,7 @@ async function sendData(){
 
 console.log('oye oye')
 surveyHtmlFile();
-sendData();
+// sendData();
 
 
 
@@ -479,6 +479,7 @@ function setEvent(event, btn) {
 saveBtn.addEventListener('click',()=>{
     console.log('SAVING STATE')
     surveyHtmlFile();    
+    sendData();
 })
 
 Array.from(editBtns).forEach(btn => {
