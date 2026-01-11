@@ -374,8 +374,7 @@ function removeColumn(ele, htmlDiv) {
 
 async function sendData(){
     try{
-        console.log('ooo')
-
+        console.log('SENDING DATA TO SERVER')
         const res = await fetch('http://localhost:3000/sendData',{
             method : 'POST',
             headers: { 'Content-type' : 'application/json'},
@@ -396,7 +395,21 @@ async function sendData(){
     
 }
 
-console.log('oye oye')
+
+async function recieveData(){
+    try{
+        console.log('recieveing data')
+        await fetch('http://localhost:3000/db/getData')
+            .then(res=>{return res.json()})
+            .then(data=>{console.log('RECIEVED DATA FROM DBS', data)})
+    }
+    catch(e){
+        console.error(e)
+    }
+    
+}
+recieveData();
+
 surveyHtmlFile();
 // sendData();
 

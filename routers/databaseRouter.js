@@ -20,6 +20,15 @@ router.post('/recieveData',(req,res)=>{
 
 })
 
+
+router.get('/getData',async (req,res)=>{
+    console.log('data request')
+    const users = await UserModel.find({})
+    console.log(users);
+    res.json(users);
+})
+
+
 async function saveToDbs(dataJson){
     console.log('SAVING TO DATABASE')
     const user = new UserModel({
