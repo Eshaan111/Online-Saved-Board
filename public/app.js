@@ -1,6 +1,5 @@
 // const { post } = require("../schemas/card");
 
-
 port = 3000;
 let now = new Date();
 
@@ -249,12 +248,48 @@ personal_count = 0;
 
 Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
 
-    if(objKey == 'meetings'){
-        Array.from(Object.keys(jsonDataObject['meetings'])).forEach(meetKey=>{
-            obj = jsonDataObject['meetings'][meetKey]
-            addEntry('meetings',null,obj.meetText)
+    category = 'meetings'
+    if(objKey == category){
+        Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
+            obj = jsonDataObject[category][Key]
+            addEntry(category,null,obj.meetText,obj.meetTime)
         })
     }
+
+    category = 'dump'
+    if(objKey == category){
+        Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
+            obj = jsonDataObject[category][Key]
+            addEntry(category,null,obj.dumpText,obj.dumpTime)
+        })
+    }
+
+    category = 'home'
+    if(objKey == category){
+        Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
+            obj = jsonDataObject[category][Key]
+            addEntry('col',category,obj.cardText)
+        })
+    }
+    
+    category = 'work'
+    if(objKey == category){
+        Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
+            obj = jsonDataObject[category][Key]
+            addEntry('col',category,obj.cardText)
+        })
+    }
+    
+    category = 'personal'
+    if(objKey == category){
+        Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
+            obj = jsonDataObject[category][Key]
+            addEntry('col',category,obj.cardText)
+        })
+    }
+    
+
+
 });
 
 }
@@ -262,7 +297,7 @@ buildFromJson(data_temp)
 
 
 
-function addEntry(type, colname = null, text = null) {
+function addEntry(type, colname = null, text = null, time=null) {
 
     let index;
     entry_div = document.createElement('div')
@@ -271,7 +306,7 @@ function addEntry(type, colname = null, text = null) {
     close_btn = document.createElement('button')
     card_footer_div = document.createElement('div')
     remove_btn = document.createElement('button')
-    time_div.innerText = now.toLocaleTimeString();
+    time == null? time_div.innerText = now.toLocaleTimeString(): time_div.innerText = time;
     text == null ? title_div.innerText = 'New Note' : title_div.innerText = text;
     entry_div.appendChild(close_btn);
     entry_div.appendChild(time_div);
