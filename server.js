@@ -25,19 +25,6 @@ app.get('/check', (req, res) => {
 
 
 
-async function test(){
-  const res = await fetch('http://localhost:3000/new_user',{
-            method : 'POST',
-            headers: { 'Content-type' : 'application/json'},
-            body : JSON.stringify({name: 'hi'})
-        });
-        if(!res.ok){
-            console.error('Request Failed : ', res.status);
-            return
-        }
-        const reply = await res.json();
-        console.log('Response From server : ', reply);
-      
-}
+
 
 // test()

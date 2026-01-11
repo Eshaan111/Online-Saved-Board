@@ -16,11 +16,22 @@ router.get('/showAll', async (req,res)=>{
 
 router.post('/recieveData',(req,res)=>{
     console.log('DB ROUTER recieved \n',req.body )
-    
-})
-
-router.get('/saveBoard',async (req,res)=>{
+    saveToDbs(req.body)
 
 })
 
+async function saveToDbs(dataJson){
+    console.log('SAVING TO DATABASE')
+    const user = new UserModel({
+        meetings : new Map(Object.entries(dataJson.meetings)),
+        work: new Map(Object.entries(dataJson.work)),
+        home: new Map(Object.entries(dataJson.home)),
+        personal: new Map(Object.entries(dataJson.personal)),
+        dump : new Map(Object.entries(dataJson.dump)),
+        userId : 'APLHA',
+        createdAt : new Date(),
+        updatedAt : new Date()
+    })
+    await user.save();
+}
 module.exports = router;

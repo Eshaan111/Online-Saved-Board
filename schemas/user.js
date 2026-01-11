@@ -4,11 +4,15 @@ const dumpSchema = require('./dump.js')
 
 
 const userSchema = mongoose.Schema({
-    meeting : [dumpSchema],
-    work: [cardSchema],
-    home: [cardSchema],
-    personal: [cardSchema],
-    dump : [dumpSchema]    
+    
+    meetings : {type: Map, of: dumpSchema },
+    work: {type: Map, of: cardSchema },
+    home: {type: Map, of: cardSchema },
+    personal: {type: Map, of: cardSchema },
+    dump : {type: Map, of: dumpSchema },
+    userId : String,
+    createdAt : Date,
+    updatedAt : Date
 })
 
 module.exports = mongoose.model('User',userSchema)
