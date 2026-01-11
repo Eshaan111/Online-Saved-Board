@@ -26,7 +26,7 @@ console.log(meetingCreateButton)
 let meetingData = {
     /** meet1: {
      * meetTime : TIME,
-     * meetTitle : TITLE
+     * meetText : TITLE
      * }**/
 }
 let homeData = {
@@ -65,11 +65,11 @@ function updateDATA() {
     }
 }
 
-meet_count = 0;
-work_count = 0;
-home_count = 0;
-personal_count = 0;
-dump_count = 0;
+let meet_count = 0;
+let work_count = 0;
+let home_count = 0;
+let personal_count = 0;
+let dump_count = 0;
 
 
 function surveyHtmlWork() {
@@ -125,18 +125,19 @@ function surveyHtmlPersonal() {
 function surveyHtmlMeet() {
     meet_count = 0;
     meetingData = {};
-    Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
-        curr_ele_count = Object.keys(meetingData).length;
-        obj = {
-            'meetTime': card.querySelector('.meeting-time').innerText,
-            'meetTitle': card.querySelector('.meeting-title').innerText
-        }
+    if(Array.from(document.getElementsByClassName('meeting-entry')).length != 0 ){
+        Array.from(document.getElementsByClassName('meeting-entry')).forEach((card) => {
+            curr_ele_count = Object.keys(meetingData).length;
+            obj = {
+                'meetTime': card.querySelector('.meeting-time').innerText,
+                'meetText': card.querySelector('.meeting-title').innerText
+            }
 
-        meetingData[`meet${curr_ele_count}`] = obj
-        meet_count++;
+            meetingData[`meet${curr_ele_count}`] = obj
+            meet_count++;
 
-    });
-
+        });
+}
 
 }
 
@@ -171,8 +172,93 @@ function surveyHtmlFile() {
 
 surveyHtmlFile()
 
+data_temp =  
+  {
+    // _id: ObjectId('69636e96a16c670d49430b03'),
+    meetings: {
+      meet0: {
+        meetTime: '10:00 AM',
+        meetText: 'Team Standup',
+        // _id: ObjectId('69636e96a16c670d49430b04')
+      },
+      meet1: {
+        meetTime: '2:30 PM',
+        meetText: 'Client Call',
+        // _id: ObjectId('69636e96a16c670d49430b05')
+      },
+      meet2: {
+        meetTime: '4:00 PM',
+        meetText: 'Project Review',
+        // _id: ObjectId('69636e96a16c670d49430b06')
+      }
+    },
+    work: {
+      card0: {
+        cardText: 'Complete project proposal',
+        // _id: ObjectId('69636e96a16c670d49430b07')
+      },
+      card1: {
+        cardText: 'Team meeting at 2 PM',
+        // _id: ObjectId('69636e96a16c670d49430b08')
+      }
+    },
+    home: {
+      card0: {
+        cardText: 'Groceries - milk, eggs, bread',
+        // _id: ObjectId('69636e96a16c670d49430b09')
+      },
+      card1: {
+        cardText: 'Water the plants',
+        // _id: ObjectId('69636e96a16c670d49430b0a')
+      }
+    },
+    personal: {
+      card0: {
+        cardText: '30 min yoga session',
+        // _id: ObjectId('69636e96a16c670d49430b0b')
+      },
+      card1: {
+        cardText: 'Read 2 chapters of book',
+        // _id: ObjectId('69636e96a16c670d49430b0c')
+      }
+    },
+    dump: {
+      dump0: {
+        dumpTime: '10:30 AM',
+        dumpText: 'Remember to call mom about the weekend plans',
+        // _id: ObjectId('69636e96a16c670d49430b0d')
+      },
+      dump1: {
+        dumpTime: '11:15 AM',
+        dumpText: 'Ideas for next presentation: use more visuals, interactive element',
+        // _id: ObjectId('69636e96a16c670d49430b0e')
+      }
+    },  
+    userId: 'APLHA',
+    // createdAt: ISODate('2026-01-11T09:34:14.965Z'),
+    // updatedAt: ISODate('2026-01-11T09:34:14.965Z'),
+    __v: 0
+  }
 
+function buildFromJson(jsonDataObject){
+meet_count = 0;
+dump_count = 0;
+work_count = 0;
+home_count = 0;
+personal_count = 0;
 
+Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
+
+    if(objKey == 'meetings'){
+        Array.from(Object.keys(jsonDataObject['meetings'])).forEach(meetKey=>{
+            obj = jsonDataObject['meetings'][meetKey]
+            addEntry('meetings',null,obj.meetText)
+        })
+    }
+});
+
+}
+buildFromJson(data_temp)
 
 
 
@@ -191,7 +277,7 @@ function addEntry(type, colname = null, text = null) {
     entry_div.appendChild(time_div);
     entry_div.appendChild(title_div);
 
-    if (type == 'meeting') {
+    if (type == 'meetings') {
         entryClass = 'meeting-entry';
         timeClass = 'meeting-time';
         textClass = 'meeting-title';
@@ -199,7 +285,7 @@ function addEntry(type, colname = null, text = null) {
         close_btn.innerText = '✕'
         meetingData[`meet${meet_count}`] = {
             'meetTime': time_div.innerText,
-            'meetTitle': title_div.innerText
+            'meetText': title_div.innerText
         }
         index = meet_count;
         meet_count++;
@@ -277,7 +363,7 @@ function addEntry(type, colname = null, text = null) {
     close_btn.classList.add(closeClass)
     parent.appendChild(entry_div);
     (type != 'meeting' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
-    (type == 'meeting' && text == null) ? editCardText(title_div, parent.id, index) : null;
+    (type == 'meetings' && text == null) ? editCardText(title_div, parent.id, index) : null;
 
 
 }
@@ -300,7 +386,7 @@ function editCardText(el, parentId, index) {
             el.removeAttribute("contenteditable");
 
             switch (parentId) {
-                case 'meetings-content': { meetingData[`meet${index}`].meetTitle = el.innerText; updateDATA(); break; };
+                case 'meetings-content': { meetingData[`meet${index}`].meetText = el.innerText; updateDATA(); break; };
                 case 'work-container': { workData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
                 case 'home-container': { homeData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
                 case 'personal-container': { personalData[`card${index}`].cardText = el.innerText; updateDATA(); break; };
@@ -410,13 +496,13 @@ async function recieveData(){
 }
 recieveData();
 
-surveyHtmlFile();
+
 // sendData();
 
 
 
 meetingCreateButton.addEventListener('click', () => {
-    addEntry('meeting')
+    addEntry('meetings')
     console.log(meetingData)
 })
 
