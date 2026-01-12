@@ -1,14 +1,14 @@
 const mongoose = require("mongoose")
 const express = require('express')
 const router = express.Router()
-const UserModel = require('../schemas/user')
+const UserDataModel = require('../schemas/userData')
 
 mongoose.connect('mongodb://localhost/board')
 
 
 router.get('/showAll', async (req,res)=>{
     console.log('reaching router for db')
-    const users = await UserModel.find({})
+    const userData = await UserDataModel.find({})
     console.log(users)
 
 })
@@ -23,15 +23,16 @@ router.post('/recieveData',(req,res)=>{
 
 router.get('/getData',async (req,res)=>{
     console.log('data request')
-    const users = await UserModel.find({})
-    console.log(users);
-    res.json(users);
+    const userData = (await UserDataModel.find({}).lean());
+    let lastEntry = userData[userData.length-1]
+    console.log(lastEntry);
+    res.json(lastEntry);
 })
 
 
 async function saveToDbs(dataJson){
     console.log('SAVING TO DATABASE')
-    const user = new UserModel({
+    const userData = new UserDataModel({
         meetings : new Map(Object.entries(dataJson.meetings)),
         work: new Map(Object.entries(dataJson.work)),
         home: new Map(Object.entries(dataJson.home)),
@@ -41,6 +42,6 @@ async function saveToDbs(dataJson){
         createdAt : new Date(),
         updatedAt : new Date()
     })
-    await user.save();
+    await userData.save();
 }
 module.exports = router;

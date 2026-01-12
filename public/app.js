@@ -1,4 +1,4 @@
-// const { post } = require("../schemas/card");
+
 
 port = 3000;
 let now = new Date();
@@ -248,6 +248,9 @@ personal_count = 0;
 
 Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
 
+    if(objKey == '_id' || objKey == '__v' || objKey == 'userId' || objKey == 'updatedAt' || objKey == 'createdAt'  ){
+        null;
+    }
     category = 'meetings'
     if(objKey == category){
         Array.from(Object.keys(jsonDataObject[category])).forEach(Key=>{
@@ -289,11 +292,11 @@ Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
     }
     
 
-
+    
 });
 
 }
-buildFromJson(data_temp)
+// buildFromJson(data_temp2)
 
 
 
@@ -393,11 +396,11 @@ function addEntry(type, colname = null, text = null, time=null) {
 
 
     entry_div.classList.add(entryClass);
-    (type != 'meeting' && type != 'dump') ? null : time_div.classList.add(timeClass);
+    (type != 'meetings' && type != 'dump') ? null : time_div.classList.add(timeClass);
     title_div.classList.add(textClass)
     close_btn.classList.add(closeClass)
     parent.appendChild(entry_div);
-    (type != 'meeting' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
+    (type != 'meetings' && type != 'dump') ? entry_div.appendChild(card_footer_div) : null;
     (type == 'meetings' && text == null) ? editCardText(title_div, parent.id, index) : null;
 
 
@@ -522,8 +525,10 @@ async function recieveData(){
         console.log('recieveing data')
         await fetch('http://localhost:3000/db/getData')
             .then(res=>{return res.json()})
-            .then(data=>{console.log('RECIEVED DATA FROM DBS', data)})
-    }
+            .then(data=>{console.log('RECIEVED DATA FROM DBS'); buildFromJson(data);})
+            
+        
+        }
     catch(e){
         console.error(e)
     }
@@ -570,7 +575,7 @@ homeAddButton.addEventListener('click', () => {
 
 addMeetinput.addEventListener('keydown', (e) => {
     if (e.key == 'Enter') {
-        addEntry('meeting', null, addMeetinput.value)
+        addEntry('meetings', null, addMeetinput.value)
         addMeetinput.value = ''
     }
     if (e.key == 'Escape') {
@@ -633,7 +638,7 @@ Array.from(removeDumpButton).forEach(btn => {
 })
 
 addMeetinputBtn.addEventListener('click', (e) => {
-    addEntry('meeting', null, addMeetinput.value)
+    addEntry('meetings', null, addMeetinput.value)
     addMeetinput.value = ''
 })
 

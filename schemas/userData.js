@@ -4,7 +4,7 @@ const dumpSchema = require('./dump.js')
 const meetSchema = require('./meet.js')
 
 
-const userSchema = mongoose.Schema({
+const userDataSchema = mongoose.Schema({
     
     meetings : {type: Map, of: meetSchema },
     work: {type: Map, of: cardSchema },
@@ -16,4 +16,4 @@ const userSchema = mongoose.Schema({
     updatedAt : Date
 })
 
-module.exports = mongoose.model('User',userSchema)
+module.exports = mongoose.model('UserData',userDataSchema)
