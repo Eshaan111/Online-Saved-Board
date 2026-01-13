@@ -92,6 +92,29 @@ body::before {
   box-shadow: 0 2px 8px rgba(103, 192, 144, 0.15);
 }
 
+.controls {
+  display: flex;
+  gap: 0.8vw;
+  align-items: center;
+}
+
+.email-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #67C090;
+  padding: 7px 16px;
+  background: rgba(103, 192, 144, 0.08);
+  border: 1px solid rgba(103, 192, 144, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+}
+
 .btn-save {
   border-color: #00d4ff;
   color: #00d4ff;
