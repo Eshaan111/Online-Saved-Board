@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const express = require('express')
 const router = express.Router()
 const UserDataModel = require('../schemas/userData')
+const userData = require("../schemas/userData")
 
 mongoose.connect('mongodb://localhost/board')
 
@@ -48,6 +49,11 @@ async function saveToDbs(dataJson){
     }
     catch(e){
         console.error('ERORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR',e.errorResponse)
+        if(e.code == 11000){
+            const existingUserData = (await UserDataModel.findOneAndDelete({'userEmail':dataJson.userEmail}))
+            console.log(existingUserData)
+            saveToDbs(dataJson)
+        }
     }
 }
 module.exports = router;
