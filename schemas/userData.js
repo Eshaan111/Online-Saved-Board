@@ -11,7 +11,11 @@ const userDataSchema = mongoose.Schema({
     home: {type: Map, of: cardSchema },
     personal: {type: Map, of: cardSchema },
     dump : {type: Map, of: dumpSchema },
-    userId : String,
+    userEmail :{
+        type : String,
+        required : true,
+        unique : true
+    },
     createdAt : Date,
     updatedAt : Date
 })

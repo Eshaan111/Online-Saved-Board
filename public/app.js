@@ -11,7 +11,9 @@ let addMeetinput = document.getElementById("meetings-input")
 let addMeetinputBtn = document.getElementById("meetings-btn")
 let dumpInput = document.getElementById('dump-input')
 let dumpCreateButton = document.getElementById('brain-btn')
-
+let emailLabel = document.getElementById('email-title')
+const userEmail = emailLabel.innerText
+console.log('mail = ',userEmail)
 
 let editBtns = document.getElementsByClassName('task-card-edit')
 let cardRemoveBtns = document.getElementsByClassName('task-btn')
@@ -60,6 +62,7 @@ function updateDATA() {
         'home': homeData,
         'personal': personalData,
         'dump': dumpData,
+        'userEmail' : userEmail
 
     }
 }
