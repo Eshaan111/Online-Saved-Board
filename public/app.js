@@ -12,7 +12,8 @@ let addMeetinputBtn = document.getElementById("meetings-btn")
 let dumpInput = document.getElementById('dump-input')
 let dumpCreateButton = document.getElementById('brain-btn')
 let emailLabel = document.getElementById('email-title')
-const userEmail = emailLabel.innerText
+let userEmail = emailLabel.innerText
+const changeEmailBtn = document.getElementById("btn-change");
 console.log('mail = ',userEmail)
 
 let editBtns = document.getElementsByClassName('task-card-edit')
@@ -622,6 +623,38 @@ saveBtn.addEventListener('click',()=>{
     console.log('SAVING STATE')
     surveyHtmlFile();    
     sendData();
+})
+
+changeEmailBtn.addEventListener('click', ()=>{
+
+    emailLabel.contentEditable = 'true'
+    emailLabel.focus()
+    const range = document.createRange();
+    range.selectNodeContents(emailLabel);   // select all content
+    range.collapse(false);         // collapse to end
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    
+    emailLabel.addEventListener("keydown", async (e) => {
+    
+        if (e.key === "Enter") {
+            e.preventDefault();        // stop newline
+            emailLabel.blur();           // exit editing (lose focus)
+            emailLabel.removeAttribute("contenteditable");
+            let newMail = emailLabel.innerText
+    
+            await fetch(`http://localhost:3000/db/getByMail?userEmail=${newMail}`)
+
+        }
+        if(e.key === 'Escape'){
+            emailLabel.innerText = userEmail;
+            e.preventDefault();        // stop newline
+            emailLabel.blur();           // exit editing (lose focus)
+            emailLabel.removeAttribute("contenteditable");
+        }
+    });
+
 })
 
 Array.from(editBtns).forEach(btn => {

@@ -31,9 +31,15 @@ router.get('/getData',async (req,res)=>{
 })
 
 
+router.get('/getByMail',async (req,res)=>{
+    userEmail = req.query.userEmail;
+    console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)
+    res.json({msg : 'REQ RECIEVED'})
+})
+
 async function saveToDbs(dataJson){
     try{
-        console.log('SAVING TO DATABASE')
+        console.log('SAVING NEWLY RECIEVED DATA TO DATABASE , user email = ', dataJson.userEmail)
         const userData = new UserDataModel({
             meetings : new Map(Object.entries(dataJson.meetings)),
             work: new Map(Object.entries(dataJson.work)),
@@ -51,7 +57,7 @@ async function saveToDbs(dataJson){
         console.error('ERORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR',e.errorResponse)
         if(e.code == 11000){
             const existingUserData = (await UserDataModel.findOneAndDelete({'userEmail':dataJson.userEmail}))
-            console.log(existingUserData)
+            console.log('EMAIL EXISTED, DATA DELETING')
             saveToDbs(dataJson)
         }
     }

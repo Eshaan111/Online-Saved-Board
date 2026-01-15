@@ -115,6 +115,18 @@ body::before {
   letter-spacing: 0.3px;
 }
 
+.btn-change {
+  border-color: #67C090;
+  color: #67C090;
+}
+
+.btn-change:hover {
+  background: rgba(103, 192, 144, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(103, 192, 144, 0.15);
+}
+
+
 .btn-save {
   border-color: #00d4ff;
   color: #00d4ff;
