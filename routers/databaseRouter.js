@@ -34,7 +34,16 @@ router.get('/getData',async (req,res)=>{
 router.get('/getByMail',async (req,res)=>{
     userEmail = req.query.userEmail;
     console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)
-    res.json({msg : 'REQ RECIEVED'})
+    
+    try{
+        const userData = (await UserDataModel.find({'userEmail' : userEmail}).lean());
+        console.log(userData)
+        res.json(userData[0]);
+    }
+    catch(e){
+        console.log(e.message)
+    }
+
 })
 
 async function saveToDbs(dataJson){

@@ -12,7 +12,7 @@ let addMeetinputBtn = document.getElementById("meetings-btn")
 let dumpInput = document.getElementById('dump-input')
 let dumpCreateButton = document.getElementById('brain-btn')
 let emailLabel = document.getElementById('email-title')
-let userEmail = emailLabel.innerText
+const userEmail = emailLabel.innerText
 const changeEmailBtn = document.getElementById("btn-change");
 console.log('mail = ',userEmail)
 
@@ -57,15 +57,14 @@ let data = {
 }
 
 function updateDATA() {
-    data = {
-        'meetings': meetingData,
-        'work': workData,
-        'home': homeData,
-        'personal': personalData,
-        'dump': dumpData,
-        'userEmail' : userEmail
-
-    }
+    
+        data['meetings'] =  meetingData;
+        data['work']= workData;
+        data['home']= homeData;
+        data['personal']= personalData;
+        data['dump']= dumpData;
+        data['userEmail'] = emailLabel.innerText;
+    
 }
 
 let meet_count = 0;
@@ -243,12 +242,21 @@ data_temp =
     __v: 0
   }
 
+//   buildFromJson(data_temp);
 function buildFromJson(jsonDataObject){
+
 meet_count = 0;
 dump_count = 0;
 work_count = 0;
 home_count = 0;
 personal_count = 0;
+
+document.getElementById('meetings-content').innerHTML = '';
+document.getElementById('work-container').innerHTML = ''
+document.getElementById('home-container').innerHTML = ''
+document.getElementById('personal-container').innerHTML = ''
+document.getElementById('brain-dump-content').innerHTML = ''
+
 
 Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
 
@@ -524,12 +532,12 @@ async function sendData(){
 }
 
 
-async function recieveData(){
+async function recieveData(email){
     try{
         console.log('recieveing data')
-        await fetch('http://localhost:3000/db/getData')
+        await fetch(`http://localhost:3000/db/getByMail/?userEmail=${email}`)
             .then(res=>{return res.json()})
-            .then(data=>{console.log('RECIEVED DATA FROM DBS'); buildFromJson(data);})
+            .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);})
             
         
         }
@@ -538,7 +546,7 @@ async function recieveData(){
     }
     
 }
-recieveData();
+recieveData(emailLabel.innerText);
 
 
 // sendData();
@@ -643,8 +651,8 @@ changeEmailBtn.addEventListener('click', ()=>{
             emailLabel.blur();           // exit editing (lose focus)
             emailLabel.removeAttribute("contenteditable");
             let newMail = emailLabel.innerText
-    
-            await fetch(`http://localhost:3000/db/getByMail?userEmail=${newMail}`)
+            data['userEmail'] = newMail;
+            recieveData(newMail)
 
         }
         if(e.key === 'Escape'){
