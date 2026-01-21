@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router();
-const SERVER_URL = (process.env.NODE_ENV === 'production')? ' https://craniometrical-ericaceous-loida.ngrok-free.dev' : "http://localhost:3000"
 
 router.post('/',async (req,res)=> { 
     console.log('Client Router Recieved data')
