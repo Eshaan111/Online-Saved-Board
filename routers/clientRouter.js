@@ -5,7 +5,7 @@ const SERVER_URL = (process.env.NODE_ENV === 'production')? ' https://craniometr
 router.post('/',async (req,res)=> { 
     console.log('Client Router Recieved data')
     try{
-        const res = await fetch(`${SERVER_URL}/db/recieveData`,{
+        const res = await fetch(`/db/recieveData`,{
             method : 'POST',
             headers: { 'Content-type' : 'application/json'},
             body : JSON.stringify(req.body)
