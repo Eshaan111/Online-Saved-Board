@@ -7,7 +7,7 @@ const databaseRouter = require('./routers/databaseRouter.js')
 const sendDataRouter = require('./routers/clientRouter.js')
 
 
-app.use(express.static('./public'))
+// app.use(express.static('./public'))
 app.use(express.json());
 app.use('/sendData', sendDataRouter);
 app.use('/db',databaseRouter)
