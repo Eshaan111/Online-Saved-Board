@@ -1,9 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
-// const userModel = require('./schemas/user')                                  
-                      
-
 require('dotenv').config()
+// const userModel = require('./schemas/user')                                  
+const SERVER_URL = (process.env.NODE_ENV === 'production')? ' https://craniometrical-ericaceous-loida.ngrok-free.dev' : "http://localhost:3000"
+console.log(SERVER_URL)
 const PORT = process.env.PORT || 3000
 const app = express();
 const databaseRouter = require('./routers/databaseRouter.js')

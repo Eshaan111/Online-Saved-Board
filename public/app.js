@@ -512,7 +512,7 @@ function removeColumn(ele, htmlDiv) {
 async function sendData(){
     try{
         console.log('SENDING DATA TO SERVER')
-        const res = await fetch('http://localhost:3000/sendData',{
+        const res = await fetch(`/sendData`,{
             method : 'POST',
             headers: { 'Content-type' : 'application/json'},
             body : JSON.stringify(data)
@@ -536,7 +536,7 @@ async function sendData(){
 async function recieveData(email){
     try{
         console.log('recieveing data')
-        await fetch(`http://localhost:3000/db/getByMail/?userEmail=${email}`)
+        await fetch(`/db/getByMail/?userEmail=${email}`)
             .then(res=>{return res.json()})
             .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);})
             
@@ -694,7 +694,7 @@ personalAddButton.addEventListener('click', () => {
 
 
 
-// fetch('http://localhost:3000/check')
+// fetch('process.env.SERVER_URLcheck')
 //     .then(res => res.json())
 //     .then(data => { console.log(data) });
     
