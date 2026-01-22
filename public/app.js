@@ -536,7 +536,7 @@ async function sendData(){
 async function recieveData(email){
     try{
         console.log('recieveing data')
-        await fetch(`/db/getByMail/?userEmail=${email}`)
+        await fetch(`/db/getByMail?userEmail=${email}`)
             .then(res=>{return res.json()})
             .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);})
             

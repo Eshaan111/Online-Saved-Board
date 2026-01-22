@@ -118,8 +118,10 @@ router.get('/getData',async (req,res)=>{
 
 
 router.get('/getByMail',async (req,res)=>{
-    userEmail = req.query.userEmail;
-    console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)
+  
+  let userEmail = req.query.userEmail;
+  console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)  
+    
     
     try{
         const userData = (await UserDataModel.find({'userEmail' : userEmail}).lean());
