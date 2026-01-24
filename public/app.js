@@ -512,7 +512,7 @@ function removeColumn(ele, htmlDiv) {
 async function sendData(){
     try{
         console.log('SENDING DATA TO SERVER')
-        const res = await fetch(`/sendData`,{
+        const res = await fetch(`/db/saveData`,{
             method : 'POST',
             headers: { 'Content-type' : 'application/json'},
             body : JSON.stringify(data)

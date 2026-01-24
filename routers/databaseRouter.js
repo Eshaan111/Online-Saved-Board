@@ -89,9 +89,6 @@ let boilerplate =
     __v: 0
   }
 
-
-
-
 router.get('/showAll', async (req,res)=>{
     console.log('reaching router for db')
     const userData = await UserDataModel.find({})
@@ -99,10 +96,9 @@ router.get('/showAll', async (req,res)=>{
 
 })
 
-
-router.post('/recieveData',(req,res)=>{
+router.post('/saveData',async (req,res)=>{
     console.log('DB ROUTER recieved \n',req.body )
-    saveToDbs(req.body)
+    await saveToDbs(req.body)
     res.json({ message: "Data saved" });
 
 })
@@ -142,29 +138,31 @@ router.get('/getByMail',async (req,res)=>{
 
 })
 
-async function saveToDbs(dataJson){
-    try{
-        console.log('SAVING NEWLY RECIEVED DATA TO DATABASE , user email = ', dataJson.userEmail)
-        const userData = new UserDataModel({
-            meetings : new Map(Object.entries(dataJson.meetings)),
+async function saveToDbs(dataJson) {
+    try {
+        console.log('UPSERTING DATA for:', dataJson.userEmail);
+
+        const updateData = {
+            meetings: new Map(Object.entries(dataJson.meetings)),
             work: new Map(Object.entries(dataJson.work)),
             home: new Map(Object.entries(dataJson.home)),
             personal: new Map(Object.entries(dataJson.personal)),
-            dump : new Map(Object.entries(dataJson.dump)),
-            userEmail : dataJson.userEmail,
-            createdAt : new Date(),
-            updatedAt : new Date()
-        })
-        await userData.save();
+            dump: new Map(Object.entries(dataJson.dump)),
+            updatedAt: new Date()
+        };
 
-    }
-    catch(e){
-        console.error('ERORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR',e.errorResponse)
-        if(e.code == 11000){
-            const existingUserData = (await UserDataModel.findOneAndDelete({'userEmail':dataJson.userEmail}))
-            console.log('EMAIL EXISTED, DATA DELETING')
-            saveToDbs(dataJson)
-        }
+        // This replaces your entire "save, catch 11000, delete, retry" logic
+        // It updates if it exists, or creates if it doesn't.
+        await UserDataModel.findOneAndUpdate(
+            { userEmail: dataJson.userEmail }, 
+            { $set: updateData, $setOnInsert: { createdAt: new Date() } },
+            { upsert: true, new: true, runValidators: true }
+        );
+
+        console.log('UPSERT SUCCESSFUL');
+    } catch (e) {
+        console.error('DATABASE ERROR:', e);
+        throw e; // Throw so your Express route knows it failed
     }
 }
 module.exports = router;
