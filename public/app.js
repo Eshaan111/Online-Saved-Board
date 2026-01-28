@@ -547,7 +547,7 @@ async function recieveData(email){
     }
     
 }
-recieveData(emailLabel.innerText);
+
 
 
 // sendData();
@@ -628,6 +628,13 @@ function setEvent(event, btn) {
 
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+    // Only start talking to the DB once the UI is ready
+    const initialEmail = document.getElementById('email-title').innerText;
+    recieveData(initialEmail);
+});
+
+
 saveBtn.addEventListener('click',()=>{
     console.log('SAVING STATE')
     surveyHtmlFile();    
@@ -645,7 +652,10 @@ changeEmailBtn.addEventListener('click', ()=>{
     sel.removeAllRanges();
     sel.addRange(range);
     
-    emailLabel.addEventListener("keydown", async (e) => {
+
+})
+
+emailLabel.addEventListener("keydown", async (e) => {
     
         if (e.key === "Enter") {
             e.preventDefault();        // stop newline
@@ -664,7 +674,7 @@ changeEmailBtn.addEventListener('click', ()=>{
         }
     });
 
-})
+
 
 Array.from(editBtns).forEach(btn => {
     setEvent('editCard', btn);
