@@ -23,6 +23,9 @@ let removeDumpButton = document.getElementsByClassName("brain-entry-close")
 
 let saveBtn = document.getElementById('btn-save');
 
+const loadingContainer = document.getElementById('loading-container');
+
+
 console.log(meetingCreateButton)
 
 let meetingData = {
@@ -535,10 +538,11 @@ async function sendData(){
 
 async function recieveData(email){
     try{
-        console.log('recieveing data')
+        console.log('recieveing data request')
+        showLoading();
         await fetch(`/db/getByMail?userEmail=${email}`)
             .then(res=>{return res.json()})
-            .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);})
+            .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);hideLoading()})
             
         
         }
@@ -702,6 +706,25 @@ personalAddButton.addEventListener('click', () => {
     console.log(personalData)
 })
 
+
+
+
+
+function showLoading() {
+  loadingContainer.classList.remove('hidden');
+}
+
+function hideLoading() {
+  loadingContainer.classList.add('hidden');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+//   hideLoading();
+});
+
+
+showLoading()
+// Add your other app logic here...
 
 
 // fetch('process.env.SERVER_URLcheck')

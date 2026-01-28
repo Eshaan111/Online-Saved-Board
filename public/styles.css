@@ -763,6 +763,88 @@ body::before {
   box-shadow: 0 2px 6px rgba(103, 192, 144, 0.1);
 }
 
+/* Loading Indicator */
+.loading-container {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background: rgba(5, 8, 20, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(103, 192, 144, 0.4);
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(103, 192, 144, 0.15);
+  animation: slideUp 0.4s ease;
+  /* Hidden by default - add 'hidden' class or display:none in JS */
+}
+
+.loading-container.hidden {
+  display: none;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(103, 192, 144, 0.2);
+  border-top: 3px solid #67C090;
+  border-right: 3px solid #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Add a pulsing glow effect */
+.loading-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(103, 192, 144, 0.3), rgba(0, 212, 255, 0.3));
+  border-radius: 50px;
+  z-index: -1;
+  opacity: 0.5;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 5px;
