@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose')
 require('dotenv').config()
 const path = require('path')
@@ -7,10 +8,11 @@ const app = express();
 const databaseRouter = require(path.join(__dirname,'../routers/databaseRouter.js'))
 const cookieRouter = require(path.join(__dirname,'../routers/cookieRouter.js'))
 
-
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/db',databaseRouter);
 app.use('/cookie',cookieRouter);
 

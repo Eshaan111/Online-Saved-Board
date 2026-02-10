@@ -89,6 +89,7 @@ let boilerplate =
       }
     },  
     userId: 'APLHA',
+    userEmail : 'User@Example.com',
     // createdAt: ISODate('2026-01-11T09:34:14.965Z'),
     // updatedAt: ISODate('2026-01-11T09:34:14.965Z'),
     __v: 0
@@ -118,12 +119,26 @@ router.get('/getData',async (req,res)=>{
 })
 
 
-router.get('/getByMail',async (req,res)=>{
+router.get('/initialDataRequest',async (req,res)=>{
   
-  let userEmail = req.query.userEmail;
-  console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)  
-    
-    
+    let cookie = req.cookies.userEmail;
+    let exists = false;
+    let data;
+    let userEmail;
+    if(cookie){
+      exists = true;
+      try{
+        data = JSON.parse(cookie)
+        console.log('Cookie email = ', data['userEmail'])
+      }
+      catch(e){
+        data = (cookie)
+        console.log('Cookie email = ', data['userEmail'])
+      }
+    }
+    console.log('initial data request, cookie exits = ', exists);
+    (exists==true)?userEmail=data['userEmail']:userEmail='user@example.com';
+
     try{
         const userData = (await UserDataModel.find({'userEmail' : userEmail}).lean());
         console.log(userData)
@@ -142,6 +157,33 @@ router.get('/getByMail',async (req,res)=>{
     }
 
 })
+
+
+
+router.get('/getByMail',async (req,res)=>{
+  let userEmail = req.query.userEmail
+  console.log('MAIL ORIENTED REQUEST RECIEVED, MAIL => ', userEmail)  
+    try{
+        const userData = (await UserDataModel.find({'userEmail' : userEmail}).lean());
+        console.log(userData)
+        if(userData.length == 0 ){
+            console.log('New Email Request, Sending BOILERPLATE DATA ')
+            boilerplate['userEmail'] = userEmail;
+            res.json(boilerplate)
+        }
+        else{
+            res.json(userData[0]);  
+        }
+        
+
+    }
+    catch(e){
+        console.log(e.message)
+    }
+
+})
+
+
 
 async function saveToDbs(dataJson) {
     try {

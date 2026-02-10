@@ -260,6 +260,7 @@ document.getElementById('work-container').innerHTML = ''
 document.getElementById('home-container').innerHTML = ''
 document.getElementById('personal-container').innerHTML = ''
 document.getElementById('brain-dump-content').innerHTML = ''
+emailLabel.innerText = jsonDataObject['userEmail']
 
 
 Array.from(Object.keys(jsonDataObject)).forEach(objKey => {
@@ -533,6 +534,10 @@ async function sendData(){
             headers : {'Content-type' : 'application/json'},
             body : JSON.stringify({userEmail : data['userEmail']})
         })
+        if(cookieRes.ok){
+            let data = await cookieRes.json();
+            console.log('COOKIE ROUTER REPLY : ', data)
+        }
         
         return;
 
@@ -545,7 +550,21 @@ async function sendData(){
 }
 
 
-async function recieveData(email){
+async function recieveInitialData(email){
+    try{
+        console.log('recieveing data request by Cookie')
+        showLoading();
+        await fetch(`/db/initialDataRequest`)
+            .then(res=>{return res.json()})
+            .then(data=>{console.log('RECIEVED DATA FROM DBS',data); buildFromJson(data);hideLoading()})
+        
+        }
+    catch(e){
+        console.error(e)
+    }
+}
+
+async function recieveEmailData(email){
     try{
         console.log('recieveing data request')
         showLoading();
@@ -643,8 +662,8 @@ function setEvent(event, btn) {
 
 window.addEventListener('DOMContentLoaded', () => {
     // Only start talking to the DB once the UI is ready
-    const initialEmail = document.getElementById('email-title').innerText;
-    recieveData(initialEmail);
+    // const initialEmail = document.getElementById('email-title').innerText;
+    recieveInitialData();
 });
 
 
@@ -676,7 +695,7 @@ emailLabel.addEventListener("keydown", async (e) => {
             emailLabel.removeAttribute("contenteditable");
             let newMail = emailLabel.innerText
             data['userEmail'] = newMail;
-            recieveData(newMail)
+            recieveEmailData(newMail)
 
         }
         if(e.key === 'Escape'){
