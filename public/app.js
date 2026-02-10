@@ -514,22 +514,31 @@ function removeColumn(ele, htmlDiv) {
 
 async function sendData(){
     try{
-        console.log('SENDING DATA TO SERVER')
+        console.log('SENDING DATA TO SERVER');
+        showLoading();
         const res = await fetch(`/db/saveData`,{
             method : 'POST',
             headers: { 'Content-type' : 'application/json'},
             body : JSON.stringify(data)
         });
+        
         if(!res.ok){
             console.error('Request Failed : ', res.status);
             return
         }
-        const reply = (await res).json();
-        console.log('Response From server : ', reply);
+        
+        reply = (await res).json().then(temp => {console.log('SAVE REQ Response From server : ', reply);hideLoading()});
+        const cookieRes = await fetch('/cookie/saveCookie',{
+            method : 'POST',
+            headers : {'Content-type' : 'application/json'},
+            body : JSON.stringify({userEmail : data['userEmail']})
+        })
+        
         return;
 
     }
     catch(e){
+        hideLoading();
         console.error(e)
     }
     

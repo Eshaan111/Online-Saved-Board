@@ -8,15 +8,20 @@ const Atlas_uri = process.env.ATLAS_URI;
 
 
 async function connect() {
-    try{
-        await mongoose.connect(Atlas_uri)
-        console.log('connected to ATLAS')
+    try {
+        console.log('--- Establishing Handshake ---');
+        await mongoose.connect(Atlas_uri, {
+            serverSelectionTimeoutMS: 10000, // Fail after 10s
+            family: 4,                      // Force IPv4
+            heartbeatFrequencyMS: 1000      // Check connection every second
+        });
+        console.log('✅ ✅ ✅ SUCCESS: CONNECTED TO ATLAS');
+    } catch (e) {
+        console.error('❌ CONNECTION FAILED:', e.message);
     }
-    catch(e){
-        console.log(e.message)
-    }
-    
 }
+
+console.log('ATLAS LINK = ', Atlas_uri)
 connect()
 
 
