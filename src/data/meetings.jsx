@@ -7,7 +7,6 @@ function MeetingData(props) {
         SetMeetData({meetTime : time, meetText: text})
     }
   
-    
     return (  
         <>
         <button onClick={() => createData(props.time, props.text)}>HU</button>
