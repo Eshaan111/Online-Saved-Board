@@ -17,14 +17,6 @@ app.use('/db',databaseRouter);
 app.use('/cookie',cookieRouter);
 
 
-
-
-// app.listen(PORT, () => {
-//   console.log('Listening on  Port ', PORT)
-// })
-
-
-
 app.get('/check', (req, res) => {
   res.json({ data: 'HI' });
 })

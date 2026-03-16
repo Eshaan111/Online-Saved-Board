@@ -1,26 +1,32 @@
+
 const express = require('express')
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose')
 require('dotenv').config()
+const path = require('path')
 const PORT = process.env.PORT || 3000
 const app = express();
-const databaseRouter = require('./routers/databaseRouter.js')
+const databaseRouter = require(path.join(__dirname,'./routers/databaseRouter.js'))
+const cookieRouter = require(path.join(__dirname,'./routers/cookieRouter.js'))
 
-
-
-app.use(express.static('./public'))
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, './public')))
 app.use(express.json());
-app.use('/db',databaseRouter)
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
-  console.log('Listening on  Port ', PORT)
-})
+app.use('/db',databaseRouter);
+app.use('/cookie',cookieRouter);
 
 app.get('/check', (req, res) => {
   res.json({ data: 'HI' });
 })
 
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Hello from Vercel!' });
+});
 
+// module.exports = app;
+app.listen(PORT,()=>{
+  console.log('listening on port', PORT)
+})
 
-
-
-// test()
