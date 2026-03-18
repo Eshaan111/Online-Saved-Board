@@ -1,12 +1,15 @@
 import React from 'react'
 
-function Work() {
-  return (
+
+function Work({data,entryHandler}) {
+  let cards = Object.values(data)
+    return (
     <>
+    
     <div className="column" id='work-col'>
                 <div className="column-header work">💼 Work</div>
                 <div className="tasks-container" id = 'work-container'>
-                    <div className="task-card">
+                    {/* <div className="task-card">
                         <button className="task-card-edit">✎</button>
                         <div className="task-text">Complete project proposal</div>
                         <div className="task-footer">
@@ -19,9 +22,20 @@ function Work() {
                         <div className="task-footer">
                             <button className="task-btn">Remove</button>
                         </div>
+                    </div> */}
+                    {cards.map((card,index)=>(
+                        <div key = {index} className="task-card">
+                        <button className="task-card-edit">✎</button>
+                        <div className="task-text">{card.cardText}</div>
+                        <div className="task-footer">
+                            <button className="task-btn">Remove</button>
+                        </div>
                     </div>
+                    ))}
+                    
+
                 </div>
-                <button className="column-add-btn" id='work-add-btn'>+ Add</button>
+                <button className="column-add-btn" id='work-add-btn' onClick={()=>{entryHandler(null,'work')}}>+ Add</button>
             </div>
     </>
   )

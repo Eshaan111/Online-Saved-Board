@@ -5,6 +5,7 @@ import MeetingData from './data/meetings.jsx'
 
 
 function App() {
+  
   const data_temp =  
   {
     // _id: ObjectId('69636e96a16c670d49430b03'),
@@ -72,12 +73,57 @@ function App() {
     // updatedAt: ISODate('2026-01-11T09:34:14.965Z'),
     __v: 0
   }
+  
   const [data,setData] = useState(data_temp)
+  console.log(data)
 
+
+  const handleEntry = (type, colname = null, text = 'New Note')=>{
+    setData(prev=>{
+      let newindex
+      let now = new Date();
+      let col;
+      let newKey;
+      let entry;
+      let newWord;
+      if(colname){
+        newindex = Object.keys(prev[colname]).length
+        col = colname
+        newKey = `card${newindex}`
+        entry = {cardText : text}
+      }
+      else if (type == 'meetings'){
+        newindex = Object.keys(prev[type]).length
+        col = type
+        newWord = 'meet'
+        newKey =`${newWord}${newindex}`
+        entry = {meetTime : now.toLocaleTimeString() , meetText : text}
+      }
+      else{
+        newindex = Object.keys(prev[type]).length
+        col = type
+        newWord = 'dump'
+        newKey =`${newWord}${newindex}`
+        entry = {dumpTime : now.toLocaleTimeString() , dumpText : text}
+      
+      }
+      // console.log(prev, entry)
+      return { 
+        ...prev,
+        [col] : {
+          ...prev[col],
+          [newKey] : entry
+        }
+      }
+    })
+    
+  }
+  
+  
   return (<>
     {/* <MeetingData time="10:00 AM" text="Sprint Planning"/> */}
     <Top_bar/>
-    <Container condata={data}/>
+    <Container condata={data} entryHandler = {handleEntry}/>
     
   </>
   

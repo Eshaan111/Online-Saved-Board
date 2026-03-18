@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function Brain({data}){
+function Brain({data, entryHandler}){
     const cards = Object.values(data)
 
     return(<>

@@ -618,6 +618,11 @@ homeAddButton.addEventListener('click', () => {
     console.log(homeData)
 })
 
+personalAddButton.addEventListener('click', () => {
+    addEntry('col', 'personal', null)
+    console.log(personalData)
+})
+
 addMeetinput.addEventListener('keydown', (e) => {
     if (e.key == 'Enter') {
         addEntry('meetings', null, addMeetinput.value)
@@ -627,6 +632,14 @@ addMeetinput.addEventListener('keydown', (e) => {
         addMeetinput.blur();
     }
 })
+addMeetinputBtn.addEventListener('click', (e) => {
+    addEntry('meetings', null, addMeetinput.value)
+    addMeetinput.value = ''
+})
+
+
+
+
 
 function setEvent(event, btn) {
 
@@ -722,16 +735,6 @@ Array.from(removeMeetButton).forEach(btn => {
 
 Array.from(removeDumpButton).forEach(btn => {
     setEvent('removeDump', btn)
-})
-
-addMeetinputBtn.addEventListener('click', (e) => {
-    addEntry('meetings', null, addMeetinput.value)
-    addMeetinput.value = ''
-})
-
-personalAddButton.addEventListener('click', () => {
-    addEntry('col', 'personal', null)
-    console.log(personalData)
 })
 
 

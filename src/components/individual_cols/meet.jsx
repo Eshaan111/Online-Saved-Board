@@ -1,14 +1,16 @@
 import React from 'react'
 
-function Meet({data}) {
+function Meet({data, entryHandler}) {
 
     const cards = Object.values(data);
-    console.log(cards)
-    console.log(data)
+    // console.log(cards)
+    // console.log(data)
     return(<>
         <div className="meetings-header">
                 📅 Meetings
-                <button className="meetings-add-btn" id="meetings-add-btn" >+</button>
+                <button className="meetings-add-btn" id="meetings-add-btn"  onClick={()=>{
+                    entryHandler('meetings')
+                }}>+</button>
         </div>
         <div className="meetings-content" id='meetings-content'>
          {cards.map((card,index)=>(

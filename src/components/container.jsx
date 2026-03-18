@@ -1,11 +1,11 @@
 import React from 'react'
 import Panes from './panes'
 
-function Container({condata}) {
+function Container({condata ,entryHandler}) {
   return (
     <div>
       <div className="container">
-        <Panes pandata={condata}/>
+        <Panes pandata={condata} entryHandler = {entryHandler}/>
       </div>
     </div>
   )
